@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hw1-s2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hw1-s2
+  template:
+    metadata:
+      labels:
+        app: hw1-s2
+    spec:
+      containers:
+        - name: hw1-s2
+          image: ivanuil/hw1_s2:1.0.0
+          ports:
+            - containerPort: 8080
+          env:
+            - name: SPRING_DATASOURCE_URL
+              value: jdbc:postgresql://postgres:15432/hw1-s2db
+          imagePullPolicy: Always
+
+---
+
+apiVersion: v1
+
+kind: Service
+metadata:
+  name: hw1-s2
+spec:
+  selector:
+    app: hw1-s2
+  ports:
+    - port: 8181
+      targetPort: 8080
+  type: LoadBalancer

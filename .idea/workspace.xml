@@ -4,12 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4cbdb3f7-701f-4d7b-89e2-ff7f1671ef60" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+    <list default="true" id="2a2428ec-9cd8-439c-b460-b623bea7b9f7" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/kube/hw1_s2.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/kube/postgres.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -28,13 +28,8 @@
         <option name="useMavenConfig" value="true" />
       </MavenGeneralSettings>
     </option>
-    <option name="importingSettings">
-      <MavenImportingSettings>
-        <option name="workspaceImportEnabled" value="true" />
-      </MavenImportingSettings>
-    </option>
   </component>
-  <component name="ProjectId" id="2cXVdsdMJvjbZkxspRS2I1fcVA5" />
+  <component name="ProjectId" id="2cXhL8eZI7FDA5azhViugBrsZsv" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -52,9 +47,16 @@
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "spring.configuration.checksum": "f7dc006076e5634e0f5d6213889b3f75",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\ivo-p\Documents\BackendAcademy\2-semester\hw1_s2\kube" />
+    </key>
+  </component>
   <component name="RunManager">
     <configuration name="SenderApp" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
       <module name="hw1_s2" />
@@ -67,12 +69,12 @@
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="4cbdb3f7-701f-4d7b-89e2-ff7f1671ef60" name="Changes" comment="" />
-      <created>1708258002167</created>
+      <changelist id="2a2428ec-9cd8-439c-b460-b623bea7b9f7" name="Changes" comment="" />
+      <created>1708263774662</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1708258002167</updated>
-      <workItem from="1708258004694" duration="2209000" />
+      <updated>1708263774662</updated>
+      <workItem from="1708263775983" duration="4515000" />
     </task>
     <servers />
   </component>
