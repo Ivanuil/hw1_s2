@@ -1,0 +1,19 @@
+type MessageEntity {
+    id: Int!,
+    author: String,
+    recipient: String,
+    content: String,
+    time: String,
+}
+
+type Query {
+    getMessages: [MessageEntity!]!
+    getMessage(id: Int!): MessageEntity
+}
+
+type Mutation {
+    saveMessage(
+        author: String,
+        recipient: String,
+        content: String!): MessageEntity
+}
