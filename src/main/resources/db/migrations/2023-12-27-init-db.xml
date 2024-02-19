@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="2024-02-18-init-db" author="ivanuil">
+
+        <createTable tableName="message">
+            <column name="id" type="INTEGER">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="author" type="VARCHAR"/>
+            <column name="recipient" type="VARCHAR"/>
+            <column name="content" type="VARCHAR"/>
+            <column name="time" type="TIMESTAMP"/>
+        </createTable>
+
+        <createSequence sequenceName="message_seq" incrementBy="1" startValue="1"/>
+
+    </changeSet>
+
+</databaseChangeLog>
