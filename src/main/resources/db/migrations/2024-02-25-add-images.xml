@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="2024-02-25-add-images" author="ivanuil">
+
+        <createTable tableName="image">
+            <column name="id" type="INTEGER">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="origin_name" type="VARCHAR"/>
+            <column name="size" type="BIGINT"/>
+            <column name="saved_by_name" type="VARCHAR"/>
+        </createTable>
+
+        <createSequence sequenceName="image_seq" startValue="1" incrementBy="1"/>
+
+        <addColumn tableName="message">
+            <column name="image" type="INTEGER"/>
+        </addColumn>
+
+        <addForeignKeyConstraint baseTableName="message"
+                                 baseColumnNames="image"
+                                 constraintName="fk_message_image"
+                                 referencedTableName="image"
+                                 referencedColumnNames="id"/>
+
+    </changeSet>
+
+</databaseChangeLog>
