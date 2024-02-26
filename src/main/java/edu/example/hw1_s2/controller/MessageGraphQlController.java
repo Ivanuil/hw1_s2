@@ -1,5 +1,6 @@
 package edu.example.hw1_s2.controller;
 
+import edu.example.hw1_s2.dto.MessageDto;
 import edu.example.hw1_s2.service.MessageService;
 import edu.example.hw1_s2.entity.MessageEntity;
 import lombok.RequiredArgsConstructor;
@@ -17,12 +18,12 @@ public class MessageGraphQlController {
     private final MessageService messageService;
 
     @QueryMapping
-    public List<MessageEntity> getMessages() {
+    public List<MessageDto> getMessages() {
         return messageService.getMessages();
     }
 
     @QueryMapping
-    public MessageEntity getMessage(@Argument Integer id) {
+    public MessageDto getMessage(@Argument Integer id) {
         return messageService.getMessage(id);
     }
 

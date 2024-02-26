@@ -1,4 +1,4 @@
-package edu.example.hw1_s2;
+package edu.example.hw1_s2.config;
 
 public enum AllowedImageExtension {
     PNG,

@@ -12,6 +12,7 @@ import java.sql.Timestamp;
 @NoArgsConstructor
 @Setter
 @Getter
+@ToString
 public class MessageEntity {
 
     @Id
@@ -32,7 +33,7 @@ public class MessageEntity {
     @CreationTimestamp
     private Timestamp time;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "image")
     private ImageEntity image;
 

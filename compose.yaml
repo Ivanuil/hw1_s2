@@ -43,6 +43,32 @@ services:
     volumes:
       - minio-data:/data
 
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_DATABASE: sender
+    volumes:
+      - ./environment/mongo/mongo-init.js:/docker-entrypoint.d/mongo-init.js:ro
+      - mongo-data:/data/db
+      - mongo-config:/data/configdb
+
+  redis:
+    image: redis:7.2-rc-alpine
+    container_name: redis
+    restart: always
+    ports:
+      - "6379:6379"
+#    command:
+#      - redis-server --save 20 1 --logLevel warning --requirepass YXNkZmFzZGY=
+    volumes:
+      - redis-data:/data
+
 volumes:
   db-data:
   minio-data:
+  redis-data:
+  mongo-data:
+  mongo-config:

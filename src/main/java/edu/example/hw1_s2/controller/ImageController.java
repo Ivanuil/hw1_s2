@@ -1,7 +1,7 @@
 package edu.example.hw1_s2.controller;
 
 
-import edu.example.hw1_s2.entity.MessageEntity;
+import edu.example.hw1_s2.dto.MessageDto;
 import edu.example.hw1_s2.repository.exception.FileReadException;
 import edu.example.hw1_s2.service.MessageService;
 import edu.example.hw1_s2.service.MinioFileStorageService;
@@ -45,11 +45,9 @@ public class ImageController {
     }
 
     @PostMapping
-    public MessageEntity attachImage(@RequestPart Integer messageId,
-                                     @RequestBody MultipartFile file) {
-
+    public MessageDto attachImage(@RequestPart Integer messageId,
+                                  @RequestBody MultipartFile file) {
         return messageService.attachImage(messageId, file);
-
     }
 
 }

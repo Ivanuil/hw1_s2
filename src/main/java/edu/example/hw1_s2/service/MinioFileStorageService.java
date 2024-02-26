@@ -32,7 +32,6 @@ public class MinioFileStorageService implements ImageStorageService {
      * Save file in the Minio storage with file extension as prefix
      * @param file file to save
      * @return generated file name
-     * @throws IOException
      */
     public String saveFile(MultipartFile file) throws FileWriteException {
 

@@ -4,6 +4,13 @@ type MessageEntity {
     recipient: String,
     content: String,
     time: String,
+    image: ImageEntity
+}
+
+type ImageEntity {
+    savedByName: String!,
+    originName: String!,
+    size: Int!
 }
 
 type Query {
