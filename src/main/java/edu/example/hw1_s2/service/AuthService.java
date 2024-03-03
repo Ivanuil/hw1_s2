@@ -35,7 +35,7 @@ public class AuthService {
      * @throws UnprocessableEntityException if user with that username already exists
      */
     public AuthUserDto register(RegisterRequestDto registerRequest) throws UnprocessableEntityException {
-        if (userRepository.existsByUsername(registerRequest.getUsername())) {
+        if (userRepository.existsById(registerRequest.getUsername())) {
             throw new UnprocessableEntityException("User with that username already exists");
         }
         UserEntity user = new UserEntity();

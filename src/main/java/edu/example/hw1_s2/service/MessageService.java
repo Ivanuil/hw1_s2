@@ -9,6 +9,7 @@ import edu.example.hw1_s2.entity.OperationEntity;
 import edu.example.hw1_s2.mapper.MessageMapper;
 import edu.example.hw1_s2.repository.ImageRepository;
 import edu.example.hw1_s2.repository.MessageRepository;
+import edu.example.hw1_s2.repository.UserRepository;
 import edu.example.hw1_s2.repository.exception.FileWriteException;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
@@ -17,6 +18,7 @@ import lombok.RequiredArgsConstructor;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -31,9 +33,11 @@ public class MessageService {
     private final ImageRepository imageRepository;
     private final ImageStorageService imageStorageService;
     private final OperationService operationService;
+    private final UserRepository userRepository;
 
     private final MessageMapper messageMapper;
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     public List<MessageDto> getMessages() {
         var messages = messageMapper.toMessageDtoList(messageRepository.findAll());
 
@@ -47,6 +51,7 @@ public class MessageService {
     }
 
     @Cacheable(value = "MessageService::getMessage", key = "#id")
+    @PreAuthorize("@messageSecurity.isAuthorOrRecipient(authentication, #id)")
     public MessageDto getMessage(Integer id) {
         var message = messageMapper.toMessageDto(messageRepository.findById(id).orElseThrow(
                 () -> new EntityNotFoundException("No message with this id")));
@@ -60,7 +65,11 @@ public class MessageService {
         return message;
     }
 
+    @PreAuthorize("@messageSecurity.isAuthorisedUser(authentication, #author)")
     public MessageEntity saveMessage(String author, String recipient, String content) {
+        if (!userRepository.existsById(recipient))
+            throw new EntityNotFoundException("No user with username: " + recipient);
+
         var message = new MessageEntity(
                 0, author, recipient, content, null, null);
 
@@ -75,6 +84,7 @@ public class MessageService {
 
     @Transactional
     @CacheEvict(value = "MessageService::getMessage", key = "#messageId")
+    @PreAuthorize("@messageSecurity.isAuthor(authentication, #messageId)")
     public MessageDto attachImage(Integer messageId, MultipartFile file) {
         var message = messageRepository.findById(messageId)
                 .orElseThrow(() -> new EntityNotFoundException("No message with such id"));
