@@ -50,6 +50,20 @@ public class MessageService {
         return messages;
     }
 
+    @PreAuthorize("@messageSecurity.isAuthorisedUser(authentication, #username)")
+    public List<MessageDto> getMessagesForUser(String username) {
+        var messages = messageMapper.toMessageDtoList(
+                messageRepository.findAllByAuthorOrRecipient(username, username));
+
+        operationService.logOperation(new OperationDto(
+                String.format("getMessagesForUser(%s): %s", username, messages),
+                LocalDateTime.now(),
+                OperationEntity.OperationType.READ
+        ));
+
+        return messages;
+    }
+
     @Cacheable(value = "MessageService::getMessage", key = "#id")
     @PreAuthorize("@messageSecurity.isAuthorOrRecipient(authentication, #id)")
     public MessageDto getMessage(Integer id) {

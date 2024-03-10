@@ -29,6 +29,11 @@ public class MessageGraphQlController {
         return messageService.getMessage(id);
     }
 
+    @QueryMapping
+    public List<MessageDto> getMessagesForUser(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return messageService.getMessagesForUser(userDetails.getUsername());
+    }
+
     @MutationMapping
     public MessageEntity saveMessage(@Argument String author,
                                      @Argument String recipient,
