@@ -11,6 +11,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -27,6 +28,7 @@ public class ImageController {
     private final MessageService messageService;
 
     @GetMapping
+    @PreAuthorize("messageSecurity.isAuthorOrRecipient(authentication, #messageId)")
     public ResponseEntity<Resource> getImageForMessage(@RequestParam Integer messageId) throws FileReadException {
         var message = messageService.getMessage(messageId);
         var image = minioFileStorageService.getModel(message.getImage().getSavedByName());
@@ -45,6 +47,7 @@ public class ImageController {
     }
 
     @PostMapping
+    @PreAuthorize("messageSecurity.isAuthor(authentication, #messageId)")
     public MessageDto attachImage(@RequestPart Integer messageId,
                                   @RequestBody MultipartFile file) {
         return messageService.attachImage(messageId, file);
