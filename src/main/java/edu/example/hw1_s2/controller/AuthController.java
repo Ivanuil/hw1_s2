@@ -3,6 +3,7 @@ package edu.example.hw1_s2.controller;
 import edu.example.hw1_s2.dto.AuthUserDto;
 import edu.example.hw1_s2.dto.LoginRequestDto;
 import edu.example.hw1_s2.dto.RegisterRequestDto;
+import edu.example.hw1_s2.entity.Role;
 import edu.example.hw1_s2.repository.exception.UnprocessableEntityException;
 import edu.example.hw1_s2.security.SecurityConstants;
 import edu.example.hw1_s2.security.UserDetailsImpl;
@@ -15,6 +16,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.stream.Collectors;
+
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/auth")
@@ -26,6 +29,8 @@ public class AuthController {
     public ResponseEntity<AuthUserDto> user(@AuthenticationPrincipal UserDetailsImpl userDetails) {
         AuthUserDto user = new AuthUserDto();
         user.setUsername(userDetails.getUsername());
+        user.setRoles(authService.getUserRole(userDetails.getUsername())
+                .getRoles().stream().map(Role::toString).collect(Collectors.toSet()));
         return ResponseEntity.ok(user);
     }
 

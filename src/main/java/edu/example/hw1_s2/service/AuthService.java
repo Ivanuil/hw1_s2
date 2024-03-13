@@ -4,10 +4,12 @@ package edu.example.hw1_s2.service;
 import edu.example.hw1_s2.dto.AuthUserDto;
 import edu.example.hw1_s2.dto.LoginRequestDto;
 import edu.example.hw1_s2.dto.RegisterRequestDto;
+import edu.example.hw1_s2.entity.Role;
 import edu.example.hw1_s2.entity.UserEntity;
 import edu.example.hw1_s2.repository.UserRepository;
 import edu.example.hw1_s2.repository.exception.UnprocessableEntityException;
 import edu.example.hw1_s2.security.jwt.JwtService;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -15,7 +17,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -41,11 +43,13 @@ public class AuthService {
         UserEntity user = new UserEntity();
         user.setUsername(registerRequest.getUsername());
         user.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
+        user.setRole(Role.USER);
         userRepository.save(user);
 
         String generatedToken = jwtService.generateFromUser(user);
         tokenService.saveNewToken(generatedToken, user);
-        return new AuthUserDto(generatedToken, user.getUsername());
+        return new AuthUserDto(generatedToken, user.getUsername(),
+                user.getRole().getRoles().stream().map(Role::toString).collect(Collectors.toSet()));
     }
 
     /**
@@ -64,6 +68,13 @@ public class AuthService {
         tokenService.deactivateUserTokens(user.getUsername());
         String generatedToken = jwtService.generateFromUser(user);
         tokenService.saveNewToken(generatedToken, user);
-        return new AuthUserDto(generatedToken, user.getUsername());
+        return new AuthUserDto(generatedToken, user.getUsername(),
+                user.getRole().getRoles().stream().map(Role::toString).collect(Collectors.toSet()));
     }
+
+    public Role getUserRole(String username) {
+        return userRepository.findById(username).orElseThrow(() ->
+                new EntityNotFoundException("No user with username: " + username)).getRole();
+    }
+
 }
