@@ -1,9 +1,7 @@
 package edu.example.hw1_s2.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.sql.Timestamp;
@@ -12,6 +10,9 @@ import java.sql.Timestamp;
 @Table(name = "message")
 @AllArgsConstructor
 @NoArgsConstructor
+@Setter
+@Getter
+@ToString
 public class MessageEntity {
 
     @Id
@@ -31,5 +32,9 @@ public class MessageEntity {
     @Column
     @CreationTimestamp
     private Timestamp time;
+
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "image")
+    private ImageEntity image;
 
 }
