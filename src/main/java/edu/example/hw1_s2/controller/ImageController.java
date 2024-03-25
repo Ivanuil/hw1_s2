@@ -46,7 +46,7 @@ public class ImageController {
 
     @PostMapping
     public MessageDto attachImage(@RequestPart Integer messageId,
-                                  @RequestBody MultipartFile file) {
+                                  @RequestPart MultipartFile file) {
         return messageService.attachImage(messageId, file);
     }
 

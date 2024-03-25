@@ -3,9 +3,9 @@ package edu.example.hw1_s2.service;
 import edu.example.hw1_s2.config.AllowedImageExtension;
 import edu.example.hw1_s2.dto.MessageDto;
 import edu.example.hw1_s2.dto.OperationDto;
-import edu.example.hw1_s2.entity.ImageEntity;
 import edu.example.hw1_s2.entity.MessageEntity;
 import edu.example.hw1_s2.entity.OperationEntity;
+import edu.example.hw1_s2.mapper.ImageMapper;
 import edu.example.hw1_s2.mapper.MessageMapper;
 import edu.example.hw1_s2.repository.ImageRepository;
 import edu.example.hw1_s2.repository.MessageRepository;
@@ -33,6 +33,7 @@ public class MessageService {
     private final OperationService operationService;
 
     private final MessageMapper messageMapper;
+    private final ImageMapper imageMapper;
 
     public List<MessageDto> getMessages() {
         var messages = messageMapper.toMessageDtoList(messageRepository.findAll());
@@ -86,13 +87,11 @@ public class MessageService {
                     FilenameUtils.getExtension(file.getOriginalFilename())), null);
         }
         try {
-            var image = imageStorageService.save(List.of(file)).get(0);
-            var imageEntity = new ImageEntity();
-            imageEntity.setOriginName(image.getOriginalName());
-            imageEntity.setSavedByName(image.getSavedFilename());
-            imageEntity.setSize(file.getSize());
+            var saveResult = imageStorageService.save(List.of(file)).get(0);
+            var imageEntity = imageMapper.toImageEntity(saveResult);
 
             imageEntity = imageRepository.save(imageEntity);
+            imageEntity.setSize(file.getSize());
             message.setImage(imageEntity);
             messageRepository.save(message);
         } catch (FileWriteException e) {

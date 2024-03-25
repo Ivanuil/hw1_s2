@@ -23,7 +23,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class MinioFileStorageService implements ImageStorageService {
 
-    private static final int MAX_ATTEMPTS_TO_GEN_FILENAME = 66;
+    private static final String defaultExtension = "noextension";
 
     private final MinioFileStorage imageStorage;
     private final ImageRepository imageRepository;
@@ -36,15 +36,9 @@ public class MinioFileStorageService implements ImageStorageService {
     public String saveFile(MultipartFile file) throws FileWriteException {
 
         String fileExt = FilenameUtils.getExtension(file.getOriginalFilename());
-        String generatedFileName = String.format("%s/%s", fileExt, UUID.randomUUID());
+        String generatedFileName = String.format("%s/%s",
+                fileExt.isBlank() ? defaultExtension : fileExt, UUID.randomUUID());
 
-        int tryCount = 0;
-        while (imageStorage.isObjectExist(generatedFileName)) {
-            if (tryCount++ > MAX_ATTEMPTS_TO_GEN_FILENAME) {
-                throw new RuntimeException("Object with generated name already exists. This is an internal error");
-            }
-            generatedFileName = String.format("%s/%s", fileExt, UUID.randomUUID());
-        }
         try {
             imageStorage.saveObject(generatedFileName, file.getSize(), file.getInputStream());
         } catch (FileWriteException | IOException e) {
